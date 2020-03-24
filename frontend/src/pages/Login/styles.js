@@ -5,6 +5,7 @@ export const Container = styled.div`
     height: 100vh;
     background-image: linear-gradient(to right, #449DD1 , #8EC4E3);
     display: flex;
+    overflow-y: hidden;
 `;
 export const Campo = styled.div`
     display: flex;

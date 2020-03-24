@@ -7,6 +7,8 @@ export const Container = styled.div`
   height: 100vh;
   background: #fff;
   box-shadow: 4px 0px 5px rgba(0,0,0,.1);
+  display: flex;
+  flex-direction: column;
   header{
       display: flex;
       background: #FAFAFA;
@@ -16,29 +18,34 @@ export const Container = styled.div`
           height: 80px;
           border-radius: 50px;
       }
-      span{
+      div#user{
           display: flex;
           flex-direction: column;
           margin: auto 10px;
           p{
-              padding-left: 8px;
+            padding-left: 8px;
               color: #646464;
               font-size: 1.2em;
           }
-          p.status{
-            color: #49F945;
+          span{
             display: flex;
-            font-size: 0.9em;
-            div{
+            padding-left: 8px;
+            p.status{
+              padding-left: 2px;
+              color: #49F945;
+              font-size: 0.9em;
+            }
+            div#ball{
               width: 10px;
               height: 10px;
               border-radius: 5px;
               background: #49F945;
               padding: 0;
               margin: auto 0;
-              margin-right: 5px;
+              margin-right: 2px;
             }
           }
+          
           
       }
       img.exit{
@@ -53,5 +60,51 @@ export const Container = styled.div`
       img.exit:hover{
         background: #e8e8e8;
       }
+  }
+  section#contacts{
+    height: inherit;
+    overflow-y: scroll;
+  }
+  section#contacts::-webkit-scrollbar-track
+  {
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+  section#contacts::-webkit-scrollbar
+  {
+    width: 5px;
+    background-color: #F5F5F5;
+  }
+  section#contacts::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    background-color: #449DD1;
+  }
+  section#add-contact{
+    display: flex;
+    
+    margin-top: auto;
+    width: 100%;
+    background: #FAFAFA;
+    div{
+      display: flex;
+      padding: 15px;
+      margin: 8px auto;
+      border-radius: 5px;
+      transition: .4s ease;
+      cursor: pointer;
+      
+      img{
+        width: 30px;
+      }
+      p{
+        color: #808080;
+        margin: auto 5px;
+      }
+    }
+    div:hover{
+      background: #e8e8e8;
+    }
+    
   }
 `;

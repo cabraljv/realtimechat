@@ -8,7 +8,7 @@ export default function Cadastro() {
     <Container >
         <Content>
               <span>
-                <img src={logo} />
+                <img src={logo} alt="logo"/>
                 <h1>Real Time Chat</h1>
               </span>
             
