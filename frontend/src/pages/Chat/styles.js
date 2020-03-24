@@ -5,4 +5,5 @@ export const Container = styled.div`
   min-width: 660px;
   height: 100vh;
   background: #E8F3F9;
+  display: flex;
 `;

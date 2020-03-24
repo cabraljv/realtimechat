@@ -105,6 +105,17 @@ export const Container = styled.div`
     div:hover{
       background: #e8e8e8;
     }
+    a{
+      margin: auto;
+      padding: 10px;
+      border-radius: 5px;
+      transition: .3s ease;
+      cursor: pointer;
+    }
+    a:hover{
+      background: #e8e8e8;
+      
+    }
     
   }
 `;
