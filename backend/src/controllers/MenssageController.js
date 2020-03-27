@@ -18,8 +18,12 @@ module.exports = {
                     receiver: receiverId,
                 });
                 res.json({status: 201, response: 'Menssagem enviada com sucesso'})
-                req.io.emit('menssage', newMenssage);
-                console.log('enviada')
+
+                const senderSocket = req.connectedClients[senderId]
+                const targetSocket = req.connectedClients[receiverId]
+
+                req.io.to(senderSocket).emit('menssage', newMenssage)
+                req.io.to(targetSocket).emit('menssage', newMenssage)
             }else{
                 res.json({status: 404, response: 'Usuário inexistente'}) 
             }

@@ -10,18 +10,13 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-const connectedChats = [];
-const connectedClients = {}
+var connectedClients = {}
 
 io.on('connection', socket => {
-    const { token, target } = socket.handshake.query
+    const { token } = socket.handshake.query
     const user = jwt.verify(token, 'r1e2a3l4t5i6m7e');
-    connectedClients[socket.id] = user;
+    connectedClients[user] = socket.id
 
-    if(!connectedChats.includes({from:user, to:target})){
-        connectedChats.push({from:user, to:target});
-    }
-    console.log(connectedChats)
 })
 io.on('disconnect', socket => {
     connectedClients[socket.id] = null;
@@ -31,7 +26,7 @@ io.on('disconnect', socket => {
 app.use((req, res, next) => {
     req.io = io;
     req.connectedClients = connectedClients;
-    req.connectedChats = connectedChats
+    req.chats = [];
     next();
 });
 
@@ -39,6 +34,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(routes);
+
 
 server.listen(3333);
 
