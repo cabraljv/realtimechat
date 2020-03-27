@@ -122,10 +122,10 @@ export const Content = styled.div`
     background-color: #8EC4E3;
   }
   div.send{
-    
+    overflow-wrap: break-word;
     margin-right: 60px;
-    margin-bottom: 0;
-    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     margin-left: auto;
     background: #BD9CE5;
     max-width: 350px;
@@ -139,10 +139,10 @@ export const Content = styled.div`
     }
   }
   div.received{
-    
+    overflow-wrap: break-word;
     margin-left: 60px;
-    margin-bottom: 0;
-    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     margin-right: auto;
     background: #B2D7EC;
     max-width: 350px;

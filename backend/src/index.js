@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 mongoose.connect('mongodb+srv://realtimechat:tahcemitlaer@cluster0-q4xjo.mongodb.net/realtimechat?retryWrites=true&w=majority', { useNewUrlParser: true,useUnifiedTopology: true })
 const routes = require('./routes');
+const User = require('./models/User')
 
 const app = express();
 
@@ -12,16 +13,27 @@ const io = require('socket.io')(server);
 
 var connectedClients = {}
 
-io.on('connection', socket => {
+io.on('connection', async socket => {
     const { token } = socket.handshake.query
-    const user = jwt.verify(token, 'r1e2a3l4t5i6m7e');
-    connectedClients[user] = socket.id
+    try{
+        const user = jwt.verify(token, 'r1e2a3l4t5i6m7e');
+        const userFind = await User.findById(user);
+        
+        userFind.status = true;
+        userFind.save();
+        connectedClients[user] = socket.id
+        console.log(user+ ' Conected')
+        socket.on('disconnect', socket => {
+            userFind.status = false;
+            userFind.save();
+            connectedClients[user] = undefined;
+            console.log(user + ' desconectado')
+        })
+    }catch(error){
+        console.log(error)
+    }
+})
 
-})
-io.on('disconnect', socket => {
-    connectedClients[socket.id] = null;
-    
-})
 
 app.use((req, res, next) => {
     req.io = io;

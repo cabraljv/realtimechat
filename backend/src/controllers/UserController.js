@@ -63,6 +63,7 @@ module.exports ={
         res.json({
             status: 200, 
             response:{
+                id: userFind._id,
                 username: userFind.username, 
                 avatar: `https://api.adorable.io/avatars/285/${userFind.username}.png`, 
                 status: userFind.status, 

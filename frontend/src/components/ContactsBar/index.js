@@ -7,7 +7,7 @@ import add_icon from '../../assets/icons/add_contact.svg';
 import accept_icon from '../../assets/icons/accept.svg';
 import api from '../../services/api';
 
-export default function ContactsBar({onChangeChat, onAddContact, history, userData,showAlert}) {
+export default function ContactsBar({onChangeChat, onAddContact, history, userData,showAlert, onAccept}) {
 
   const onLogout = ()=>{
     localStorage.removeItem('@token');
@@ -19,6 +19,7 @@ export default function ContactsBar({onChangeChat, onAddContact, history, userDa
     const response_api = await api.get(`/friend/accept?target=${id}`,{ headers: { authorization: token } });
     const {status, response} = response_api.data;
     if(status===200){
+      onAccept();
       showAlert('success','Pedido aceito com sucesso');
     }else{
       showAlert('error',response);

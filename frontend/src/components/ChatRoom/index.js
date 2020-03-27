@@ -3,31 +3,30 @@ import React,{useState,useEffect} from 'react';
 import { Container,Content } from './styles';
 import send from '../../assets/icons/send.svg';
 import api from '../../services/api';
-import io from 'socket.io-client';
 
-export default function ChatRoom({chat}) {
+
+export default function ChatRoom({chat,socket}) {
     const [name, setName] = useState('');
     const [avatar, setAvatar] = useState('');
     const [status, setStatus] = useState(true);
+    const [id, setId] = useState('');
     const [chatContent,setChatContent] = useState([]);
     const [menssage,setMenssage] = useState('');
     const [scrollRef, setScrollRef] = useState();
 
     const registertoSocket = () => {
-        const token = localStorage.getItem('@token');
-        const socket = io('http://191.242.97.194:3333',{
-            query: {
-                token,
-            }
-        });
         socket.on('menssage', newMenssage => {
             setChatContent([...chatContent, newMenssage]);
         })
       }
 
     useEffect(()=>{
-        if(chatContent.length>0){
-            scrollRef.scrollTop = scrollRef.scrollHeight;
+        if(chatContent.length>0 && chat!==''){
+            try{
+                scrollRef.scrollTop = scrollRef.scrollHeight;
+            }catch(error){
+
+            }    
         }
         
     },[chatContent, scrollRef])
@@ -38,6 +37,7 @@ export default function ChatRoom({chat}) {
                 const api_response = await api.get(`/user/${chat}`,{ headers: { authorization: token } });
                 const {status, response} = api_response.data;
                 setName(response.username);
+                setId(response.id);
                 setAvatar(response.avatar);     
                 setStatus(response.status);
                 
@@ -85,17 +85,28 @@ export default function ChatRoom({chat}) {
                         <img  src={avatar} alt="contact pic"/>
                         <div>
                             <p>{name}</p>
-                        <span className="online"><div></div><p>Online</p></span>
+                            {
+                                status ? (
+                                <span className="online">
+                                    <div></div>
+                                    <p>Online</p>
+                                </span>
+                                ): (
+                                    <span className="offline">
+                                    <div></div>
+                                    <p>Offline</p>
+                                    </span>
+                                )
+                            }
                         </div>
                     </header>
                     <Content ref={el=>setScrollRef(el)}>
                         {
                             chatContent.map((item,index)=>(
-                                item.receiver===chat ? 
+                                (item.receiver===chat || item.sender===chat) ? 
                                 <div className={item.sender===chat ? 'received':'send'} key={index}>
                                     <p>{item.content}</p>
-                                </div>:
-                                <p></p>
+                                </div>:<p></p>
                             ))
                         }
                         
