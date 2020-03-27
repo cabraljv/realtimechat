@@ -123,11 +123,13 @@ export const Content = styled.div`
   }
   div.send{
     
-    margin: 20px;
+    margin-right: 60px;
+    margin-bottom: 0;
+    margin-top: 10px;
     margin-left: auto;
     background: #BD9CE5;
     max-width: 350px;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 8px;
     z-index: 5;
     position: relative;
     p{
@@ -135,42 +137,22 @@ export const Content = styled.div`
       color: #fff;
       z-index: 5;
     }
-    div{
-      width: 33px;
-      height: 33px;
-      background-color: #BD9CE5;
-      position: absolute;
-      right: 25px;
-      transform: rotate(34deg) skewY(20deg) ;
-      margin-top: -25px;
-      z-index: -1;
-    }
   }
-  div.recived{
+  div.received{
     
-    margin: 20px;
+    margin-left: 60px;
+    margin-bottom: 0;
+    margin-top: 10px;
     margin-right: auto;
     background: #B2D7EC;
     max-width: 350px;
-    border-radius: 8px;
+    border-radius: 8px 8px 8px 0;
     position: relative;
     z-index: 5;
     p{
       padding: 8px;
       color: #fff;
       
-    }
-    div{
-      width: 33px;
-      height: 33px;
-      background-color: #B2D7EC;
-      position: absolute;
-      left: 10px;
-      transform: rotate(34deg) skewY(20deg) ;
-      margin-top: -25px;
-      z-index: -1;
-
-
     }
   }
 `;

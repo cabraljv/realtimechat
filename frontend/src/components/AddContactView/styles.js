@@ -8,7 +8,14 @@ export const Container = styled.div`
   z-index: 10;
   display: flex;
   transition: .5s ease;
+  div{
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+  }
   section{
+    z-index: 5;
     background: #fff;
     border-radius: 15px;
     margin: auto;

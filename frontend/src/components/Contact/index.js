@@ -6,8 +6,8 @@ export default function Contact({data}) {
 
   return (
     <Container>
-        <img src={data.pp} alt="user pic"/>
-        <p>{data.name}</p>
+        <img src={data.profile_pic} alt="user pic"/>
+        <p>{data.username}</p>
         {
           data.status ? (
           <span className="online">

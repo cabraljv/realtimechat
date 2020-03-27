@@ -11,7 +11,7 @@ export const Container = styled.div`
   flex-direction: column;
   header{
       display: flex;
-      background: #FAFAFA;
+      background: #F9F9F9;
       padding: 20px;
       img.pp{
           width: 80px;
@@ -64,6 +64,31 @@ export const Container = styled.div`
   section#contacts{
     height: inherit;
     overflow-y: scroll;
+    section#requests{
+      display: flex;
+      flex-direction: column;
+      section{
+        display: flex;
+        width: 100%;
+        background: #E9E9E9;
+        
+        div{
+          display: flex;
+          margin: auto;
+          padding: 15px;
+          img{
+            width: 20px;
+            margin-right: 5px;
+          }
+          p{
+            color: #2F4247;
+          }
+          
+        }
+        
+      }
+
+    }
   }
   section#contacts::-webkit-scrollbar-track
   {
@@ -117,5 +142,45 @@ export const Container = styled.div`
       
     }
     
+  }
+`;
+
+export const UserRequest = styled.div`
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #cccccc;
+  img{
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+  }
+  button{
+    border: 2px solid #73EC5F;
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    cursor: pointer;
+    transition: .3s ease;
+    img{
+      height: 80%;
+      transition: .3s ease;
+    }
+    background: #fff;
+    margin: auto 5px;
+    margin-left: auto;
+  }
+  button:focus{
+    outline: none;
+  }
+  button:hover{
+    border: 4px solid #73EC5F;
+    img{
+      height: 110%;
+    }
+  }
+  p{
+    margin: auto 5px;
+    color: #999999;
   }
 `;

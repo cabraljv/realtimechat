@@ -31,9 +31,6 @@ module.exports = {
     async index(req,res){
         const {receiverId} = req.query;
         const senderId = jwt.verify(req.token, 'r1e2a3l4t5i6m7e');
-
-        console.log(receiverId);
-        console.log(senderId);
         const menssages = await Menssage.find({
             $or:[
                 

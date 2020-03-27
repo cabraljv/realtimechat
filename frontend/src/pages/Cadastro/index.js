@@ -1,9 +1,66 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 
 import { Container,Content,Campo } from './styles';
 import logo from '../../assets/images/logo.svg'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import ScaleLoader from "react-spinners/ScaleLoader";
+import api from '../../services/api'
 
-export default function Cadastro() {
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+
+export default function Cadastro({history}) {
+  const [username, setUsername] = useState('');
+  const [passwd, setPasswd] = useState('');
+  const [repeatPasswd, setRepeatPasswd] = useState('');
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [erroMenssage, setErroMenssage] = useState('')
+
+  useEffect(()=>{
+    const token = localStorage.getItem('@token');
+    if(token){
+      history.push(`/`);
+    }
+  },[])
+
+  const onSingup = async()=>{
+    setLoading(true);
+    if(username===''){
+      setErroMenssage('Username inválido');
+      setAlertOpen(true);
+    }else if(passwd===''){
+      setErroMenssage('Senha inválida');
+      setAlertOpen(true);
+    }else if(passwd!== repeatPasswd){
+      setErroMenssage('As senhas são diferentes');
+      setAlertOpen(true);
+    }
+    else{
+      setAlertOpen(false);
+      const api_response = await api.post('/user/create',{ username, passwd});
+      const {status, response} = api_response.data;
+      if(status===201){
+        localStorage.setItem('@token', response);
+        history.push(`/`);
+      }else{
+        setErroMenssage(response);
+        setAlertOpen(true);
+      }
+    }
+    setLoading(false);
+  }
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlertOpen(false);
+  };
   return (
     <Container >
         <Content>
@@ -14,22 +71,39 @@ export default function Cadastro() {
             
             <form >
               <Campo>  
-                <input id="username" placeholder=" "/>
-                <label for="username">Username</label>
+                <input id="username" placeholder=" " onChange={text=>setUsername(text.target.value)}/>
+                <label htmlFor="username">Username</label>
               </Campo>
               
               <Campo>       
-                <input id="passwd" type="password"  placeholder=" "/>
-                <label for="passwd"  >Senha</label>
+                <input id="passwd" type="password"  placeholder=" " onChange={text=>setPasswd(text.target.value)}/>
+                <label htmlFor="passwd"  >Senha</label>
               </Campo>
               <Campo>       
-                <input id="reppasswd" type="password"  placeholder=" "/>
-                <label for="reppasswd"  >Repita sua senha</label>
+                <input id="reppasswd" type="password"  placeholder=" "onChange={text=>setRepeatPasswd(text.target.value)}/>
+                <label htmlFor="reppasswd"  >Repita sua senha</label>
               </Campo>
-              <button type="button"><p>CADASTRAR</p></button>
+              <button type="button" onClick={onSingup}>
+                {
+                  loading ? (
+                    <ScaleLoader
+                      height={25}
+                      color={"#fff"}
+                      loading
+                    />
+                  ):(
+                    <p>CADASTRAR</p>
+                  )
+                }
+              </button>
               <a href="login">Já tem uma conta? Login</a>
             </form>
         </Content>
+        <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity="error">
+            {erroMenssage}
+          </Alert>
+        </Snackbar>
     </Container>
   );
 }

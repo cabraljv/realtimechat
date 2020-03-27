@@ -20,7 +20,7 @@ module.exports ={
     },
     async show(req,res){
         const {id} = req.params;
-        const userFind = await User.findById(parseInt(id));
+        const userFind = await User.findById(id);
         res.json({status: 200, response:{username: userFind.username, avatar: `https://api.adorable.io/avatars/285/${userFind.username}.png`, status: userFind.status}})
 
     },

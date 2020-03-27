@@ -6,7 +6,7 @@ module.exports={
         const {target} = req.query;
         const userid = jwt.verify(req.token, 'r1e2a3l4t5i6m7e');
         const userSender = await User.findById(userid);
-        const userTarget = await User.findById(target);
+        const userTarget = await User.findOne({username: target});
         if(userTarget){
             if(!userSender.friends.includes(userTarget._id)){
                 if(!userSender.friendsRequestRecived.includes(userTarget._id)){

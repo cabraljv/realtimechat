@@ -1,63 +1,35 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 
-import { Container } from './styles';
+import { Container,UserRequest } from './styles';
 import logout from '../../assets/icons/logout.svg';
 import Contact from '../Contact';
 import add_icon from '../../assets/icons/add_contact.svg';
+import accept_icon from '../../assets/icons/accept.svg';
+import api from '../../services/api';
 
-const data = {
-  user:{
-    name: 'UnknownNTC',
-    status: true,
-    pp: 'https://api.adorable.io/avatars/285/realtimechat@adorable.io.png'
-  },
-  contacts:[
-    {
-      id: 1237,
-      name: 'mark0374',
-      status: true,
-      pp: 'https://api.adorable.io/avatars/285/realtimec2hat2@adorable.io.png'
-    },
-    {
-      id: 1236,
-      name: 'mark0374',
-      status: false,
-      pp: 'https://api.adorable.io/avatars/285/realtim5echat2@adorable.io.png'
-    },
-    {
-      id: 1235,
-      name: 'mark0374',
-      status: true,
-      pp: 'https://api.adorable.io/avatars/285/realt4imechat2@adorable.io.png'
-    },
-    {
-      id: 1234,
-      name: 'mark0374',
-      status: false,
-      pp: 'https://api.adorable.io/avatars/285/realtime3chat2@adorable.io.png'
-    },
-    {
-      id: 1233,
-      name: 'mark0374',
-      status: true,
-      pp: 'https://api.adorable.io/avatars/285/realtimechat22@adorable.io.png'
-    },
-    {
-      id: 1232,
-      name: 'mark0374',
-      status: false,
-      pp: 'https://api.adorable.io/avatars/285/realtimech3at2@adorable.io.png'
-    },
-  ]
-}
+export default function ContactsBar({onChangeChat, onAddContact, history, userData,showAlert}) {
 
-export default function ContactsBar({onChangeChat, onAddContact}) {
+  const onLogout = ()=>{
+    localStorage.removeItem('@token');
+    history.push(`/`);
+  
+  }
+  const onAcceptRequest = async(id)=>{
+    const token = localStorage.getItem('@token');
+    const response_api = await api.get(`/friend/accept?target=${id}`,{ headers: { authorization: token } });
+    const {status, response} = response_api.data;
+    if(status===200){
+      showAlert('success','Pedido aceito com sucesso');
+    }else{
+      showAlert('error',response);
+    }
+  }
   return (
     <Container>
         <header>
-            <img className="pp" src={data.user.pp} alt="profile pic"/>
+            <img className="pp" src={userData.avatar} alt="profile pic"/>
             <div id="user">
-                <p>{data.user.name}</p>
+                <p>{userData.username}</p>
                 <span><div id="ball"></div><p className="status">Online</p></span>
             </div>
             
@@ -65,20 +37,46 @@ export default function ContactsBar({onChangeChat, onAddContact}) {
         </header>
         <section id="contacts">
             {
-              data.contacts.map((item)=>
+    
+              userData.friends.map((item)=>
                 <div onClick={()=> onChangeChat(item.id)} key={item.id} >
                   <Contact data={item} />
                 </div>
                 
               )
             }
+            {
+              userData.friendsRequestRecived.length>0 ? (
+                <section id="requests">
+                  <section>
+                    <div >
+                      <img src={add_icon} alt="icon"/>
+                      <p>Solicitações de amizade</p>
+                    </div>   
+                  </section>
+                  {
+                    userData.friendsRequestRecived.map(item=>(
+                      <UserRequest key={item.id}>
+                        <img src={item.profile_pic} alt="icon"/>
+                        <p>{item.username}</p>
+                        <button onClick={async ()=>await onAcceptRequest(item.id)}><img src={accept_icon} /></button>
+                      </UserRequest>
+                    ))
+                  }
+                  
+                  
+                </section>
+              ):<div></div>
+            }
+            
         </section>
+        
         <section id="add-contact">
           <div onClick={()=> onAddContact()} >
             <img src={add_icon} alt="add contact"/>
             <p>Adicionar Contato</p>
           </div>  
-          <a href="login"><img className="exit" src={logout} alt="logout"/></a>
+          <a href="login" onClick={onLogout}><img className="exit" src={logout} alt="logout"/></a>
         </section>
     </Container>
   );
