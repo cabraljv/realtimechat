@@ -23,7 +23,7 @@ export default function Login({history}) {
     if(token){
       history.push(`/`);
     }
-  },[])
+  },[history])
 
   const onSingin = async()=>{
     setLoading(true);

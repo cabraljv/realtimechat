@@ -26,7 +26,7 @@ export default function Cadastro({history}) {
     if(token){
       history.push(`/`);
     }
-  },[])
+  },[history])
 
   const onSingup = async()=>{
     setLoading(true);

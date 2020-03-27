@@ -45,7 +45,7 @@ export default function Chat({history}) {
     }));
     
     getInfo();
-  },[])
+  },[history])
   
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {

@@ -8,17 +8,11 @@ import api from '../../services/api';
 export default function ChatRoom({chat,socket}) {
     const [name, setName] = useState('');
     const [avatar, setAvatar] = useState('');
-    const [status, setStatus] = useState(true);
-    const [id, setId] = useState('');
     const [chatContent,setChatContent] = useState([]);
-    const [menssage,setMenssage] = useState('');
+    const [message,setMessage] = useState('');
     const [scrollRef, setScrollRef] = useState();
+    const [status, setStatus] = useState(true);
 
-    const registertoSocket = () => {
-        socket.on('menssage', newMenssage => {
-            setChatContent([...chatContent, newMenssage]);
-        })
-      }
 
     useEffect(()=>{
         if(chatContent.length>0 && chat!==''){
@@ -29,21 +23,25 @@ export default function ChatRoom({chat,socket}) {
             }    
         }
         
-    },[chatContent, scrollRef])
+    },[chatContent, scrollRef, chat])
     useEffect(()=>{
         const token = localStorage.getItem('@token');
         if(chat!==''){
             const getProfile = async()=>{
                 const api_response = await api.get(`/user/${chat}`,{ headers: { authorization: token } });
                 const {status, response} = api_response.data;
-                setName(response.username);
-                setId(response.id);
-                setAvatar(response.avatar);     
-                setStatus(response.status);
+                if(status===200){
+                    setName(response.username);
+                    setAvatar(response.avatar); 
+                    setStatus(response.status);  
+                }else{
+                    console.log(response)
+                }
+                
                 
             }
             const getChat = async()=>{
-                const api_response = await api.get(`/menssages?receiverId=${chat}`,{ headers: { authorization: token } });
+                const api_response = await api.get(`/messages?receiverId=${chat}`,{ headers: { authorization: token } });
                 const {status, response} = api_response.data;
                 if(status===200){
                     setChatContent(response);
@@ -52,27 +50,33 @@ export default function ChatRoom({chat,socket}) {
             
             getProfile();
             getChat();
-            if(chat!==''){
-                registertoSocket();
-            }
+
             
         }
         
     },[chat])
+
     useEffect(()=>{
-        registertoSocket();
-    },[chatContent])
-    const onSendMenssage = async ()=>{
+        if(chat!==''){
+            socket.on('message', newMessage => {
+                setChatContent([...chatContent, newMessage]);
+            })
+        }
+    },[chatContent, socket, chat])
+    const onSendMessage = async ()=>{
         const token = localStorage.getItem('@token');
-        if(menssage!==''){
-            setMenssage('')
-            const api_response = await api.post(`/menssages/send`,
+        if(message!==''){
+            setMessage('')
+            const api_response = await api.post(`/messages/send`,
             { 
-                content: menssage,
+                content: message,
                 receiverId: chat   
             }, {headers: { authorization: token, 'content-type': 'application/json' }});
 
             const {status,response} = api_response.data;
+            if(status!==200){
+                console.log(response);
+            }
             
         }
     }
@@ -114,11 +118,11 @@ export default function ChatRoom({chat,socket}) {
                     <footer>
                         <div>
                             <input placeholder="Digite alguma coisa..." 
-                                value={menssage} 
-                                onChange={text=>setMenssage(text.target.value)} 
-                                onKeyDown={key=>{if(key.key==='Enter'){onSendMenssage()}}}
+                                value={message} 
+                                onChange={text=>setMessage(text.target.value)} 
+                                onKeyDown={key=>{if(key.key==='Enter'){onSendMessage()}}}
                             />
-                            <button onClick={onSendMenssage} ><img src={send} alt="send"/></button>
+                            <button onClick={onSendMessage} ><img src={send} alt="send"/></button>
                         </div>
                         
                     </footer>

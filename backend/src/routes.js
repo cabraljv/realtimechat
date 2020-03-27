@@ -4,7 +4,7 @@ const UserController = require('./controllers/UserController');
 const LoginController = require('./controllers/LoginController');
 const jwt = require('jsonwebtoken');
 const FriendController = require('./controllers/FriendController');
-const MenssagesController= require('./controllers/MenssageController')
+const MessagesController= require('./controllers/MessageController')
 
 async function verifyToken(req, res, next) {
     const bearerHeader = await req.headers.authorization;
@@ -31,8 +31,8 @@ routes.get('/user/:id',verifyToken, UserController.show);
 routes.get('/user',verifyToken, UserController.index);
 routes.get('/friend/send',verifyToken, FriendController.send);
 routes.get('/friend/accept',verifyToken, FriendController.accept);
-routes.post('/menssages/send',verifyToken, MenssagesController.store);
-routes.get('/menssages',verifyToken, MenssagesController.index);
+routes.post('/messages/send',verifyToken, MessagesController.store);
+routes.get('/messages',verifyToken, MessagesController.index);
 
 
 module.exports = routes;

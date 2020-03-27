@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const Menssage = require('../models/Menssage');
+const Message = require('../models/Message');
 const jwt = require('jsonwebtoken')
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
 
         if(sender.friends.includes(receiverId)){
             if(sender && receiver){
-                const newMenssage = await Menssage.create({
+                const newMessage = await Message.create({
                     content,
                     sender: senderId,
                     receiver: receiverId,
@@ -22,8 +22,8 @@ module.exports = {
                 const senderSocket = req.connectedClients[senderId]
                 const targetSocket = req.connectedClients[receiverId]
 
-                req.io.to(senderSocket).emit('menssage', newMenssage)
-                req.io.to(targetSocket).emit('menssage', newMenssage)
+                req.io.to(senderSocket).emit('message', newMessage)
+                req.io.to(targetSocket).emit('message', newMessage)
             }else{
                 res.json({status: 404, response: 'Usuário inexistente'}) 
             }
@@ -37,7 +37,7 @@ module.exports = {
     async index(req,res){
         const {receiverId} = req.query;
         const senderId = jwt.verify(req.token, 'r1e2a3l4t5i6m7e');
-        const menssages = await Menssage.find({
+        const messages = await Message.find({
             $or:[
                 
                 {sender: senderId, receiver: receiverId},
@@ -46,7 +46,7 @@ module.exports = {
             ]
         });
 
-        res.json({status: 200, response: menssages});
+        res.json({status: 200, response: messages});
 
     }
 }

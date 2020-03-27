@@ -1,5 +1,4 @@
-import React,{useEffect, useState} from 'react';
-
+import React from 'react';
 import { Container,UserRequest } from './styles';
 import logout from '../../assets/icons/logout.svg';
 import Contact from '../Contact';
@@ -60,12 +59,10 @@ export default function ContactsBar({onChangeChat, onAddContact, history, userDa
                       <UserRequest key={item.id}>
                         <img src={item.profile_pic} alt="icon"/>
                         <p>{item.username}</p>
-                        <button onClick={async ()=>await onAcceptRequest(item.id)}><img src={accept_icon} /></button>
+                        <button onClick={async ()=>await onAcceptRequest(item.id)}><img src={accept_icon} alt='button'/></button>
                       </UserRequest>
                     ))
                   }
-                  
-                  
                 </section>
               ):<div></div>
             }
