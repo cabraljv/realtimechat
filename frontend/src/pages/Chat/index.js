@@ -20,6 +20,8 @@ export default function Chat({history}) {
   const [alertMenssage, setAlertMenssage] = useState('')
   const [alertType,setAlertType] = useState('success')
 
+
+  
   useEffect(()=>{
     const token = localStorage.getItem('@token');
     if(!token){
@@ -34,7 +36,7 @@ export default function Chat({history}) {
     }
     getInfo();
   },[])
-
+  
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
       return;

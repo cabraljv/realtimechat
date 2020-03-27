@@ -12,12 +12,14 @@ module.exports = {
 
         if(sender.friends.includes(receiverId)){
             if(sender && receiver){
-                await Menssage.create({
+                const newMenssage = await Menssage.create({
                     content,
                     sender: senderId,
                     receiver: receiverId,
                 });
                 res.json({status: 201, response: 'Menssagem enviada com sucesso'})
+                req.io.emit('menssage', newMenssage);
+                console.log('enviada')
             }else{
                 res.json({status: 404, response: 'Usuário inexistente'}) 
             }

@@ -5,8 +5,6 @@ import send from '../../assets/icons/send.svg';
 import api from '../../services/api';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3333');
-socket.on('connect', ()=>console.log('io new connection'))
 
 export default function ChatRoom({chat}) {
     const [name, setName] = useState('');
@@ -15,6 +13,21 @@ export default function ChatRoom({chat}) {
     const [chatContent,setChatContent] = useState([]);
     const [menssage,setMenssage] = useState('');
 
+    const registertoSocket = () => {
+        const token = localStorage.getItem('@token');
+        const socket = io('http://localhost:3333',{
+            query: {
+                token,
+                target: chat
+            }
+        });
+        socket.on('menssage', newMenssage => {
+            setChatContent([...chatContent, newMenssage]);
+        })
+      }
+    useEffect(()=>{
+        registertoSocket();
+    },[])
     useEffect(()=>{
         const token = localStorage.getItem('@token');
         if(chat!==''){
@@ -33,12 +46,12 @@ export default function ChatRoom({chat}) {
                     setChatContent(response);
                 }
             }
-    
+            
             getProfile();
             getChat();
+            
         }
         
-        //const api_response = await api.get('/user',{ headers: { authorization: token } });
     },[chat])
     const onSendMenssage = async ()=>{
         const token = localStorage.getItem('@token');
