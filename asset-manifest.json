@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ee18194c.chunk.css",
+    "main.js": "/static/js/main.d0c4f651.chunk.js",
+    "main.js.map": "/static/js/main.d0c4f651.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.1c2d59f4.js",
+    "runtime-main.js.map": "/static/js/runtime-main.1c2d59f4.js.map",
+    "static/js/2.01cfabf4.chunk.js": "/static/js/2.01cfabf4.chunk.js",
+    "static/js/2.01cfabf4.chunk.js.map": "/static/js/2.01cfabf4.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.818ce4c7b230d6d5697487278906bb4b.js": "/precache-manifest.818ce4c7b230d6d5697487278906bb4b.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.ee18194c.chunk.css.map": "/static/css/main.ee18194c.chunk.css.map",
+    "static/js/2.01cfabf4.chunk.js.LICENSE.txt": "/static/js/2.01cfabf4.chunk.js.LICENSE.txt",
+    "static/media/accept.svg": "/static/media/accept.e0655dee.svg",
+    "static/media/add_contact.svg": "/static/media/add_contact.08fce901.svg",
+    "static/media/add_contact_blue.svg": "/static/media/add_contact_blue.c779daaf.svg",
+    "static/media/logo.svg": "/static/media/logo.26c74108.svg",
+    "static/media/logout.svg": "/static/media/logout.98669d69.svg",
+    "static/media/plus .svg": "/static/media/plus .e0a407f5.svg",
+    "static/media/send.svg": "/static/media/send.5263b13e.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1c2d59f4.js",
+    "static/js/2.01cfabf4.chunk.js",
+    "static/css/main.ee18194c.chunk.css",
+    "static/js/main.d0c4f651.chunk.js"
+  ]
+}
